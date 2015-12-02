@@ -5,6 +5,7 @@ import CalculatePercentageChange
 import getTopTweets
 import getTopTweeters
 import BingSearch
+import csv
 
 def calculateAverageSentimentTrends():
     tweetStatsFileName = tweet_stats()
@@ -41,7 +42,17 @@ def analyzeAPeriod(filter, numOfTweets, rankCriteria, beginDateRange, endDateRan
     negativeFollowerHandles, negativeFollowerHandleFileName = getImpactfulHandles(followerTweetFileName, '0To10')
     negativeFavoriteHandles, negativeFavoriteHandleFileName = getImpactfulHandles(favoriteTweetFileName, '0To10')
 
-    for handle in positiveRetweetHandles:
-        print BingSearch.bing_search(handle, 'Web')
+    retweetTweetFile = open(retweetTweetFileName, 'r')
+    tweetReader = list(csv.DictReader(retweetTweetFile))
+
+    for handles in positiveRetweetHandles:
+        for tweet in tweetReader:
+            if tweet['tweet_request_id'] == handles[0]:
+                print tweet['raw_tweet']
+                print handles[1:]
+                justHandles = handles[1:]
+
+                for handle in justHandles:
+                    print BingSearch.bing_search(handle, 'Web')
 
 analyzeAPeriod('carson', 25, 'rt_normalized', '2015-11-00 00:00:00', '2015-11-10 00:00:00')

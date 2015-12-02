@@ -88,7 +88,6 @@ def getTweets(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange
         writer.writerow(tweet + ('0To10', tweetRequestID,))
         tweetRequestID += 1
 
-    print tweetRequestID
     topTweetOutputFile.close()
 
     return outputFileName;

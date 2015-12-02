@@ -24,8 +24,8 @@ def getTopTweeters(fileName, shelf):
             twitter_handles.append(line_handles)
         line_handles = []
 
-    print(twitter_handles)
-    print(len(twitter_handles))
+    # print(twitter_handles)
+    # print(len(twitter_handles))
 
     outputFileName = "topTweeters_" + strftime("%Y%m%d%H%M%S") + ".csv"
     topTweetersFile = open(outputFileName, "wb")
