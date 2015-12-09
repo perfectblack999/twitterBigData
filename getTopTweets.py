@@ -92,4 +92,10 @@ def getTweets(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange
 
     return outputFileName;
 
+def main(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange):
+    getTweets(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange)
+
+if __name__ == "__main__":
+   main()
+
 # getTweets('carson', 25, 'rt_normalized', '2015-11-00 00:00:00', '2015-11-10 00:00:00')

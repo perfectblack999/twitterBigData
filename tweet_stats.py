@@ -11,7 +11,7 @@ def addTweetsToDB():
         cursor.execute("SELECT avg(sentiment), filter, strftime('%m-%d-%Y', date) as valDay FROM tweet_text GROUP BY filter, valDay")
         stats = cursor.fetchall()
 
-    print(stats)
+    # print(stats)
     datesCollected = ['subject']
 
     # Get all the dates in the sqlite database
@@ -50,7 +50,7 @@ def addTweetsToDB():
     # Write the row into the output file
     for subjectAndSentimentsRowPrint in subjectAndSentimentsRowList:
         writer.writerow(subjectAndSentimentsRowPrint)
-        print subjectAndSentimentsRowPrint
+        # print subjectAndSentimentsRowPrint
 
     rawSentimentStats.close()
 

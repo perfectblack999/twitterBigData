@@ -10,7 +10,7 @@ def main():
     print bing_search(query, 'Web')
 
 def bing_search(query, search_type):
-    print "Now searching for: " + query
+    # print "Now searching for: " + query
     #search_type: Web, Image, News, Video
     key= 'fiI+4C9i7o/nsII7jd5pFNroxPMfrdFYfdJJ+ezMxeg='
     query = urllib.quote(query)
@@ -26,8 +26,9 @@ def bing_search(query, search_type):
     response = request_opener.open(request)
     response_data = response.read()
     json_result = json.loads(response_data)
+    # print json_result
     result_list = json_result['d']['results']
     return result_list
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

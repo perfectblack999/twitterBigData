@@ -4,13 +4,16 @@ import sqlite3 as sql
 import pprint
 from time import strftime
 
-def getTopTweeters(fileName, shelf):
+def main(fileName, shelf):
     tweetFile = open(fileName, 'r')
     tweetFileInput = csv.DictReader(tweetFile)
     line_handles = []
     twitter_handles = []
+    print "Filename: " + fileName
+    print "Shelf: " + shelf
 
     for line in tweetFileInput:
+        print line
         if line['shelf'] == shelf or shelf == 'all':
             handles = [word for word in str(line['raw_tweet']).split() if word.startswith('@')]
             for handle in handles:
@@ -24,8 +27,8 @@ def getTopTweeters(fileName, shelf):
             twitter_handles.append(line_handles)
         line_handles = []
 
-    # print(twitter_handles)
-    # print(len(twitter_handles))
+    print(twitter_handles)
+    print(len(twitter_handles))
 
     outputFileName = "topTweeters_" + strftime("%Y%m%d%H%M%S") + ".csv"
     topTweetersFile = open(outputFileName, "wb")
@@ -36,5 +39,5 @@ def getTopTweeters(fileName, shelf):
     topTweetersFile.close()
     return twitter_handles, outputFileName
 
-tweetFileName = 'topTweetOutput_20151201203108.csv'
-topTweeters = getTopTweeters(tweetFileName, '91To100')
+if __name__ == "__main__":
+    main()
