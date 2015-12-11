@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Line Chart</title>
+		<script src="../static/Chart.min.js"></script>
+	</head>
+	<body>
+		<form method="post">
+			Topic 1: 	<select name="topic1">
+							{% for subject in subjects %}
+    							<option value="{{ subject }}">{{ subject }}</option>
+							{% endfor %}
+						</select><br>
+			Topic 2: 	<select name="topic2">
+							{% for subject in subjects %}
+    							<option value="{{ subject }}">{{ subject }}</option>
+							{% endfor %}
+						</select><br>
+			Topic 3: 	<select name="topic3">
+							{% for subject in subjects %}
+    							<option value="{{ subject }}">{{ subject }}</option>
+							{% endfor %}
+						</select><br>
+			Begin Date Range: <input type="date" name="begin_date_range"><br>
+    		End Date Range: <input type="date" name="end_date_range"><br>
+			<input type="submit" value="Submit"><br><br>
+			<div style="width:30%">
+				<div>
+					<canvas id="canvas" height="450" width="600"></canvas>
+				</div>
+			</div>
+
+
+			<script type="text/javascript">
+				var dates = '{{dates}}'
+				var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+				var lineChartData = {
+					labels : [{% for date in dates %}
+									"{{date}}",
+								{% endfor %}],
+					datasets : [
+						{% for subjectAndSentiment in subjectsAndSentiments %}
+							{
+								label: "{{subjectAndSentiment[0]}}",
+								fillColor : "rgba(220,220,220,0.2)",
+								strokeColor : "rgba(220,220,220,1)",
+								pointColor : "rgba(220,220,220,1)",
+								pointStrokeColor : "#fff",
+								pointHighlightFill : "#fff",
+								pointHighlightStroke : "rgba(220,220,220,1)",
+								data : [{% for sentiment in subjectAndSentiment[1:] %}
+											"{{sentiment}}",
+											{% endfor %}]
+							},
+						{% endfor %}]
+				}
+				console.log(dates)
+				window.onload = function(){
+					var ctx = document.getElementById("canvas").getContext("2d");
+					window.myLine = new Chart(ctx).Line(lineChartData, {
+						responsive: true
+					});
+				}
+			</script>
+		</form>
+	</body>
+</html>

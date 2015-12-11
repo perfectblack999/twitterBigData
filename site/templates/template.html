@@ -1,0 +1,35 @@
+<!doctype html>
+
+<title>Test</title> 
+<meta charset=utf-8> 
+<form method="post">
+    Filter: <input type="text" name="filter"><br>
+    Tweet Pool:     <select name="num_of_tweets">
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                        </select><br>
+    Rank Criteria:  <select name="rank_criteria">
+                        <option value="rt_normalized">Retweets</option>
+                        <option value="fav_normalized">Favorites</option>
+                        <option value="followers_normalized">Followers</option>
+                    </select><br>
+    Sentiment:      <select name="shelf">
+                        <option value="91To100">91 to 100</option>
+                        <option value="81To90">81 to 90</option>
+                        <option value="71To80">71 to 80</option>
+                        <option value="61To70">61 to 70</option>
+                        <option value="51To60">51 to 60</option>
+                        <option value="41To50">41 to 50</option>
+                        <option value="31To40">31 to 40</option>
+                        <option value="21To30">21 to 30</option>
+                        <option value="11To20">11 to 20</option>
+                        <option value="0To10">0 to 10</option>
+                    </select><br>
+    Begin Date Range: <input type="date" name="begin_date_range"><br>
+    End Date Range: <input type="date" name="end_date_range"><br>
+    <input type="submit" value="Submit">
+</form>
