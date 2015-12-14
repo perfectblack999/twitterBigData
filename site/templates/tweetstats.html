@@ -32,29 +32,35 @@
 
 
 			<script type="text/javascript">
-				var dates = '{{dates}}'
-				var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
 				var lineChartData = {
 					labels : [{% for date in dates %}
 									"{{date}}",
 								{% endfor %}],
 					datasets : [
+						{% set red = 150 %}
+						{% set green = 100 %}
+						{% set blue = 50 %}
 						{% for subjectAndSentiment in subjectsAndSentiments %}
 							{
 								label: "{{subjectAndSentiment[0]}}",
-								fillColor : "rgba(220,220,220,0.2)",
-								strokeColor : "rgba(220,220,220,1)",
-								pointColor : "rgba(220,220,220,1)",
+								fillColor : "rgba({{red}},{{green}},{{blue}},0.2)",
+								strokeColor : "rgba({{red}},{{green}},{{blue}},1)",
+								pointColor : "rgba({{red}},{{green}},{{blue}},1)",
 								pointStrokeColor : "#fff",
 								pointHighlightFill : "#fff",
-								pointHighlightStroke : "rgba(220,220,220,1)",
+								pointHighlightStroke : "rgba({{red}},{{green}},{{blue}},1)",
 								data : [{% for sentiment in subjectAndSentiment[1:] %}
-											"{{sentiment}}",
+												"{{sentiment}}",
 											{% endfor %}]
+								{% set red = red - 20 %}
+								{% set green = green + 25 %}
+								{% set blue = blue + 10 %}
 							},
 						{% endfor %}]
 				}
-				console.log(dates)
+				var resetGraph = function() {
+
+				};
 				window.onload = function(){
 					var ctx = document.getElementById("canvas").getContext("2d");
 					window.myLine = new Chart(ctx).Line(lineChartData, {

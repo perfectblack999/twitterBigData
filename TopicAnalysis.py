@@ -7,54 +7,60 @@ import getTopTweeters
 import BingSearch
 import csv
 
-def main(function, filter, numOfTweets, rankCriteria, shelf, beginDateRange, endDateRange):
+def main(function):
 
     # need to put an if statement for functions in
     if function == "tweetStats":
-        tweetStatsFileName = tweet_stats()
+        tweetStatsFileName, dates, subjectsAndSentiments, subjectList = tweet_stats.main()
+        return tweetStatsFileName, dates, subjectsAndSentiments, subjectList
     elif function == "percentChange":
         percentChangeFileName = CalculatePercentageChange.PercentChange('rawsentimentstats.csv')
     elif function == "greatestPercentChange":
         CalculatePercentageChange.greatestPercentageChange('percentChangeStats_20151127130559.csv', 3)
     elif function == "gatherTweets":
         twitter_practice()
-    elif function == "getImpactfulTweets":
-        tweetFileName = getTopTweets.getTweets(filter, numOfTweets, rankCriteria, beginDateRange, endDateRange)
 
+def getImpactfulTweets(filter=None, numOfTweets=None, rankCriteria=None, beginDateRange=None, endDateRange=None):
+    tweetFileName = getTopTweets.main(filter, numOfTweets, rankCriteria, beginDateRange, endDateRange)
+    return tweetFileName
 
-def getImpactfulHandles(fileName, shelf):
+def getImpactfulHandles(fileName=None, shelf=None):
     handles, handleFileName = getTopTweeters.main(fileName, shelf)
     return handles, handleFileName
 
-def getHandleInfo(query, searchType):
+def getHandleInfo(query=None, searchType=None):
     BingSearch.bing_search(query, searchType)
 
 # Todo: need to create foreign key to link tweets with handles with search results
-def analyzeAPeriod(filter, numOfTweets, rankCriteria, shelf, beginDateRange, endDateRange):
+def analyzeAPeriod(filter=None, numOfTweets=None, rankCriteria=None, shelf=None, beginDateRange=None, endDateRange=None):
     tweetFileName = getImpactfulTweets(filter, numOfTweets, rankCriteria, beginDateRange, endDateRange)
-    impactfulHandles, handleFileName = getImpactfulHandles(tweetFileName, shelf)
 
-    retweetTweetFile = open(tweetFileName, 'r')
-    tweetReader = list(csv.DictReader(retweetTweetFile))
+    if tweetFileName:
+        impactfulHandles, handleFileName = getImpactfulHandles(tweetFileName, shelf)
 
-    positiveRetweetList = []
+        retweetTweetFile = open(tweetFileName, 'r')
+        tweetReader = list(csv.DictReader(retweetTweetFile))
 
-    for handles in impactfulHandles:
-        for tweet in tweetReader:
-            if tweet['tweet_request_id'] == handles[0]:
-                # print tweet['raw_tweet']
-                # print handles[1:]
-                positiveRetweetList.append(tweet['raw_tweet'])
-                positiveRetweetList.append(handles[1:])
-                justHandles = handles[1:]
+        positiveRetweetDict = {}
+        tweetHandlesDict = {}
 
-                for handle in justHandles:
-                    searchResult = BingSearch.bing_search(handle, 'Web')
-                    # print searchResult
-                    positiveRetweetList.append(handle)
-                    positiveRetweetList.append(BingSearch.bing_search(handle, 'Web'))
+        positiveRetweetDict['shelf'] = shelf
+        for handles in impactfulHandles:
+            for tweet in tweetReader:
+                if tweet['tweet_request_id'] == handles[0]:
+                    tweetHandlesDict["tweet"] = tweet['raw_tweet']
+                    tweetHandlesDict["handles"] = handles[1:]
+                    justHandles = handles[1:]
 
-    return positiveRetweetList
+                    for handle in justHandles:
+                        searchResult = BingSearch.bing_search(handle, 'Web')
+
+                        tweetHandlesDict[handle] = searchResult
+                    positiveRetweetDict[tweet['tweet_request_id']] = tweetHandlesDict
+                    tweetHandlesDict = {}
+
+
+        return positiveRetweetDict
 
 if __name__ == "__main__":
-   main()
+   main("tweetStats")

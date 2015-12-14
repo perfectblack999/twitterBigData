@@ -21,7 +21,7 @@ def main():
     searchWordList = searchWords.read().split(',')
 
     for searchWord in searchWordList:
-        tweetList.append((tweepy.Cursor(api.search, q = searchWord, show_user = "true").items(25), searchWord))
+        tweetList.append((tweepy.Cursor(api.search, q = searchWord, show_user = "true").items(50), searchWord))
 
     connection = sql.connect('/Users/perfectblack999/Documents/Developer/Nkem_Big_Data_Projects/tweets.sqlite')
     connection.text_factory = str

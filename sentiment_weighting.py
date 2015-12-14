@@ -49,10 +49,10 @@ for row in tweet_data:
     weighted_data.append((rowID, (sentiment * followers) / data_maxes[0], (sentiment * retweets) / data_maxes[1],
                           (sentiment * favorites) / data_maxes[2], retweets / data_maxes[1], followers / data_maxes[0],
                           favorites / data_maxes[2]))
-    print "followers/max_followers: " + str(followers) + "/" + str(data_maxes[0]) + " retweets/max_retweets: " + str(retweets) + "/" + str(data_maxes[1]) + " favorites/max_favorites: " + str(favorites) + "/" + str(data_maxes[2])
-    print (rowID, (sentiment * followers) / data_maxes[0], (sentiment * retweets) / data_maxes[1],
-                          (sentiment * favorites) / data_maxes[2], float(retweets / data_maxes[1]), float(followers / data_maxes[0]),
-           float(favorites / data_maxes[2]))
+    # print "followers/max_followers: " + str(followers) + "/" + str(data_maxes[0]) + " retweets/max_retweets: " + str(retweets) + "/" + str(data_maxes[1]) + " favorites/max_favorites: " + str(favorites) + "/" + str(data_maxes[2])
+    # print (rowID, (sentiment * followers) / data_maxes[0], (sentiment * retweets) / data_maxes[1],
+    #                       (sentiment * favorites) / data_maxes[2], float(retweets / data_maxes[1]), float(followers / data_maxes[0]),
+    #        float(favorites / data_maxes[2]))
 
 print "data maxes: followers, rt, favorites"
 print data_maxes
@@ -69,7 +69,7 @@ with connection:
 # get the weighted values
     cursor.execute("SELECT MAX(followers_weighted_sentiment), MAX(rt_weighted_sentiment), MAX(fav_weighted_sentiment) FROM tweet_text")
     data_maxes = cursor.fetchone()
-    print data_maxes
+    # print data_maxes
 
     cursor.execute("SELECT rowid, followers_weighted_sentiment, rt_weighted_sentiment, fav_weighted_sentiment FROM tweet_text")
     normalized_data = cursor.fetchall()

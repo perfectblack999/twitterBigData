@@ -2,7 +2,7 @@ import csv
 import sqlite3 as sql
 from time import strftime
 
-def addTweetsToDB():
+def main():
     connection = sql.connect('/Users/perfectblack999/Documents/Developer/Nkem_Big_Data_Projects/tweets.sqlite')
     connection.text_factory = str
 
@@ -54,4 +54,10 @@ def addTweetsToDB():
 
     rawSentimentStats.close()
 
-    return outputFileName
+    return outputFileName, datesCollected[1:], subjectAndSentimentsRowList, subjectList
+
+def getSelectedStats(topics, beginDate, endDate):
+    pass
+
+if __name__ == "__main__":
+   main()
