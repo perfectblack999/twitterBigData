@@ -2,14 +2,11 @@
 ## To access Twitter ##
 ##############################################################################
 import tweepy
-import csv
 import indicoio
-import pprint
 import sqlite3 as sql
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import time
 
 def main():
     indicoio.config.api_key = '568b95dbd872c89618448e76a809c715'
@@ -21,7 +18,7 @@ def main():
     searchWordList = searchWords.read().split(',')
 
     for searchWord in searchWordList:
-        tweetList.append((tweepy.Cursor(api.search, q = searchWord, show_user = "true").items(50), searchWord))
+        tweetList.append((tweepy.Cursor(api.search, q = searchWord, show_user = "true").items(25), searchWord))
 
     connection = sql.connect('/Users/perfectblack999/Documents/Developer/Nkem_Big_Data_Projects/tweets.sqlite')
     connection.text_factory = str

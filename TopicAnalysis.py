@@ -34,17 +34,16 @@ def getHandleInfo(query=None, searchType=None):
 # Todo: need to create foreign key to link tweets with handles with search results
 def analyzeAPeriod(filter=None, numOfTweets=None, rankCriteria=None, shelf=None, beginDateRange=None, endDateRange=None):
     tweetFileName = getImpactfulTweets(filter, numOfTweets, rankCriteria, beginDateRange, endDateRange)
-
     if tweetFileName:
         impactfulHandles, handleFileName = getImpactfulHandles(tweetFileName, shelf)
 
         retweetTweetFile = open(tweetFileName, 'r')
         tweetReader = list(csv.DictReader(retweetTweetFile))
 
-        positiveRetweetDict = {}
+        tweetDict = {}
         tweetHandlesDict = {}
 
-        positiveRetweetDict['shelf'] = shelf
+        tweetDict['shelf'] = shelf
         for handles in impactfulHandles:
             for tweet in tweetReader:
                 if tweet['tweet_request_id'] == handles[0]:
@@ -56,11 +55,11 @@ def analyzeAPeriod(filter=None, numOfTweets=None, rankCriteria=None, shelf=None,
                         searchResult = BingSearch.bing_search(handle, 'Web')
 
                         tweetHandlesDict[handle] = searchResult
-                    positiveRetweetDict[tweet['tweet_request_id']] = tweetHandlesDict
+                    tweetDict[tweet['tweet_request_id']] = tweetHandlesDict
                     tweetHandlesDict = {}
 
 
-        return positiveRetweetDict
+        return tweetDict
 
 if __name__ == "__main__":
    main("tweetStats")

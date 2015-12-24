@@ -12,7 +12,6 @@ def main(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange):
 
         with connection:
             cursor = connection.cursor()
-            # cursor.execute("SELECT * FROM tweet_text WHERE filter = 'carson' AND screen_name NOT LIKE '%' || 'carson' || '%' AND date BETWEEN '2015-10-00 00:00:00' AND '2015-11-08 00:00:00' ORDER BY rt_weighted_sentiment DESC LIMIT 100")
             cursor.execute("SELECT * FROM tweet_text WHERE filter = ? AND screen_name NOT LIKE '%' || ? || '%' AND date BETWEEN ? AND ? ORDER BY " + rankCriteria + " DESC LIMIT ?", (filter, filter, beginDateRange, endDateRange, numberOfTweets))
             tweets = cursor.fetchall()
 
@@ -53,9 +52,7 @@ def main(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange):
         topTweetOutputFile = open(outputFileName, "wb")
         writer = csv.writer(topTweetOutputFile, delimiter=',')
         writer.writerow(('date', 'raw_tweet', 'clean_tweet', 'sentiment', 'filter', 'screen_name', 'followers', 'retweet_count',
-                        'favorite_count', 'rt_weighted_sentiment', 'favorite_weighted_sentiment', 'follower_weighted_sentiment',
-                         'rt_normalized_sentiment', 'fav_normalized_sentiment', 'follower_normalized_sentiment', 'rt_normalized',
-                         'followers_normalized', 'fav_normalized', 'shelf', 'tweet_request_id'))
+                        'favorite_count', 'rt_normalized', 'followers_normalized', 'fav_normalized', 'shelf', 'tweet_request_id'))
 
         tweetRequestID = 0
 
@@ -96,5 +93,3 @@ def main(filter, numberOfTweets, rankCriteria, beginDateRange, endDateRange):
 
 if __name__ == "__main__":
    main()
-
-# getTweets('carson', 25, 'rt_normalized', '2015-11-00 00:00:00', '2015-11-10 00:00:00')

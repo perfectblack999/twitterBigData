@@ -11,14 +11,6 @@ app = Flask(__name__)
 @app.route('/tweethandleinfo', methods=['POST', 'GET'])
 def tweetHandleInfo():
     if request.method == 'POST':
-        # return jsonify(filter=request.form['filter'], num_of_tweets=request.form['num_of_tweets'],
-        #                rank_criteria=request.form['rank_criteria'], begin_date_range=request.form['begin_date_range'],
-        #                end_date_range=request.form['end_date_range'])
-
-        # jsonData = json.dump(result=TopicAnalysis.analyzeAPeriod(request.form['filter'], request.form['num_of_tweets'],
-        #                                                    request.form['rank_criteria'], request.form['shelf'],
-        #                                                     request.form['begin_date_range'], request.form['end_date_range']))
-
         fileName = "practice_" + request.form['filter'] + "_" + request.form['rank_criteria'] + "_" + request.form['shelf'] + "_" + strftime("%Y%m%d%H%M%S") + ".txt"
         with open(fileName, 'wb') as outfile:
             json.dump(TopicAnalysis.analyzeAPeriod(request.form['filter'], request.form['num_of_tweets'],
@@ -27,12 +19,6 @@ def tweetHandleInfo():
         outfile.close()
 
         jsonConversion.main(fileName)
-
-
-        # return jsonify(result=TopicAnalysis.analyzeAPeriod(request.form['filter'], request.form['num_of_tweets'],
-        #                                                    request.form['rank_criteria'], request.form['shelf'],
-        #                                                     request.form['begin_date_range'], request.form['end_date_range']))
-
     return render_template('template.html')
 
 @app.route('/static/Chart.js')
