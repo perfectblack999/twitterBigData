@@ -42,22 +42,38 @@ def analyzeAPeriod(filter=None, numOfTweets=None, rankCriteria=None, shelf=None,
 
         tweetDict = {}
         tweetHandlesDict = {}
+        originalTweetList = []
+        originalIdList = []
+        originalHandlesList = []
+
+        for tweet in tweetReader:
+            if tweet['raw_tweet'] not in originalTweetList:
+                originalTweetList.append(tweet['raw_tweet'])
+                originalIdList.append(tweet['tweet_request_id'])
+                for handles in impactfulHandles:
+                    if handles[0] == tweet['tweet_request_id']:
+                        originalHandlesList.append(handles[1:])
+            else:
+                # Add new handles to the original tweet
+                tweetIndex = originalTweetList.index(tweet['raw_tweet'])
+                for handles in impactfulHandles:
+                    if handles[0] == tweet['tweet_request_id']:
+                        for handle in handles[1:]:
+                            if handle not in originalHandlesList[tweetIndex]:
+                                originalHandlesList[tweetIndex].append(handle)
+
 
         tweetDict['shelf'] = shelf
-        for handles in impactfulHandles:
-            for tweet in tweetReader:
-                if tweet['tweet_request_id'] == handles[0]:
-                    tweetHandlesDict["tweet"] = tweet['raw_tweet']
-                    tweetHandlesDict["handles"] = handles[1:]
-                    justHandles = handles[1:]
+        for i in range(0,len(originalTweetList) - 1):
+            tweetHandlesDict['tweet'] = originalTweetList[i]
+            tweetHandlesDict['handles'] = originalHandlesList[i]
 
-                    for handle in justHandles:
-                        searchResult = BingSearch.bing_search(handle, 'Web')
+            for handle in originalHandlesList[i]:
+                searchResult = BingSearch.bing_search(handle, 'Web')
+                tweetHandlesDict[handle] = searchResult
 
-                        tweetHandlesDict[handle] = searchResult
-                    tweetDict[tweet['tweet_request_id']] = tweetHandlesDict
-                    tweetHandlesDict = {}
-
+            tweetDict[originalIdList[i]] = tweetHandlesDict
+            tweetHandlesDict = {}
 
         return tweetDict
 
