@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 def main():
-    indicoio.config.api_key = '568b95dbd872c89618448e76a809c715'
+    indicoio.config.api_key = 'KEY_HERE'
     auth = tweepy.OAuthHandler('I8WduwyyITtt61j61rxLGnE5T','Fesofuet7mzLhjdZYCLHkxHR2BbMainTjHv2Bk65FhFsFhrjLj')
     api = tweepy.API(auth)
     searchWords = open("/Users/perfectblack999/Documents/Developer/Nkem_Big_Data_Projects/search_words.txt", "r")
@@ -57,7 +57,7 @@ def main():
     # send confirmation email
     fromEmail = "nkembigdata@gmail.com"
     toEmail = "nkembigdata@gmail.com"
-    pw = "IAmAnEngineer10."
+    pw = "PASSWORD"
     msg = MIMEMultipart()
     msg['From'] = fromEmail
     msg["To"] = toEmail
