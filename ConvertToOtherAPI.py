@@ -11,7 +11,7 @@ connection.text_factory = str
 tweet_data = []
 tweet_count = 0
 tweet_list = []
-mashape_key = 'gIUzJXTpYEmshon0ZKQJlivtJtGkp19XNxvjsnXODF47IvZo6o'
+mashape_key = 'KEY_HERE'
 
 with connection:
     cursor = connection.cursor()
